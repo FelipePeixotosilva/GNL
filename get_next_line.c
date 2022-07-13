@@ -6,31 +6,44 @@
 /*   By: fpeixoto <fpeixoto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 18:14:56 by fpeixoto          #+#    #+#             */
-/*   Updated: 2022/07/11 19:40:48 by fpeixoto         ###   ########.fr       */
+/*   Updated: 2022/07/13 18:37:24 by fpeixoto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
-char *get_next_line(int fd)
-{
-  char *buffer;
-  static char *str;
-  int i ;
-  
-  buffer = malloc(BUFFER_SIZE + 1);
-  i = 0;
-  
-  read(fd, buffer, BUFFER_SIZE);
-  str = ft_strchr(buffer, '\n');
-  str[BUFFER_SIZE+1] = '\0';
-  
-  return str;
-}
-
 #include <stdio.h>
 #include <fcntl.h>
 #include <unistd.h>
+
+char *ft_fn(int fd, char *str)
+{
+  char *buff;
+  int i = 0;
+  str = (char *)malloc(BUFFER_SIZE + 1);
+  buff =(char *)malloc (BUFFER_SIZE + 1); 
+  read(fd,str, BUFFER_SIZE);
+  while(str[i] && str[i] != '\n')
+{
+  if(str[i] == '\\')
+  {
+    i++;
+    if(str[i] == 'n')
+      exit;
+  }
+  buff[i] = str[i];
+  i++;
+}
+return buff; 
+}
+char *get_next_line(int fd)
+{
+  static char *v;
+  
+v = ft_fn(fd, v);
+  return v;
+}
+
+
 
 int main()
 {
@@ -40,9 +53,7 @@ int main()
     fd =  open("test.txt",O_RDONLY);
     
     //read(fd, buffer, 5);
-    
-    printf("%s",get_next_line(fd));
-    printf("%s",get_next_line(fd));
-    printf("%s",get_next_line(fd));
-    
+    printf("%s\n",get_next_line(fd));
+    printf("%s\n",get_next_line(fd));
+   
 }
