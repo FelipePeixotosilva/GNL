@@ -6,7 +6,7 @@
 /*   By: fpeixoto <fpeixoto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 18:47:41 by fpeixoto          #+#    #+#             */
-/*   Updated: 2022/07/11 19:28:09 by fpeixoto         ###   ########.fr       */
+/*   Updated: 2022/07/14 14:09:32 by fpeixoto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ char	*ft_strchr(const char *s, int c)
 	size_t	i;
 
 	i = 0;
+	if(s == NULL)
+		return NULL;
 	while (i <= ft_strlen(s))
 	{
 		if (s[i] == (char)c)
@@ -41,3 +43,93 @@ char	*ft_strchr(const char *s, int c)
 	return (NULL);
 }
 
+char	*ft_strjoin(char const *s1, char const *s2)
+{
+	char	*ptr;
+	size_t	s;
+
+	if(s1 == NULL)
+	{
+		s1 = malloc(1);
+	}
+	s = (ft_strlen(s1) + ft_strlen(s2)) + 1;
+	ptr = (char *)malloc(s);
+	if (ptr == 0)
+	{
+		return (NULL);
+	}
+	ft_strlcpy (ptr, s1, s);
+	ft_strlcat (ptr, s2, s);
+	return (ptr);
+}
+
+size_t	ft_strlcat(char *dst, const char *src, size_t size)
+{
+	size_t	dst_len;
+	size_t	j;
+	size_t	limit;
+
+	dst_len = ft_strlen(dst);
+	if (size <= dst_len)
+	{
+		return (size + ft_strlen(src));
+	}
+	limit = size - dst_len - 1;
+	j = 0;
+	while (src[j] && j < limit)
+	{
+		dst[dst_len + j] = src[j];
+		j++;
+	}
+	dst[dst_len + j] = '\0';
+	return (dst_len + ft_strlen(src));
+}
+void	*ft_memcpy(void *dest, const void *src, size_t n)
+{
+	size_t	i;
+
+	i = 0;
+	if ((dest == NULL) && (src == NULL))
+	{
+		return (NULL);
+	}
+	while (n > 0)
+	{
+		((char *)dest)[i] = ((char *)src)[i];
+		i++;
+		n--;
+	}
+	return (dest);
+}
+
+void	*ft_memmove(void *dest, const void *src, size_t n)
+{
+	if (dest > src)
+	{
+		while (n > 0)
+		{
+			n--;
+			((char *)dest)[n] = ((char *)src)[n];
+		}
+	}
+	else
+	{
+		ft_memcpy(dest, src, n);
+	}
+	return (dest);
+}
+
+size_t	ft_strlcpy(char *dst, const char *src, size_t size)
+{
+	if (ft_strlen(src) + 1 < size)
+	{
+		ft_memmove(dst, src, ft_strlen(src) + 1);
+		dst[size - 1] = '\0';
+	}
+	else if (size != 0)
+	{
+		ft_memmove(dst, src, size - 1);
+		dst[size - 1] = '\0';
+	}	
+	return (ft_strlen(src));
+}
