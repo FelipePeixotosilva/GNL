@@ -6,7 +6,7 @@
 /*   By: fpeixoto <fpeixoto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 18:14:56 by fpeixoto          #+#    #+#             */
-/*   Updated: 2022/07/13 23:12:34 by fpeixoto         ###   ########.fr       */
+/*   Updated: 2022/07/14 14:24:57 by fpeixoto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,46 +15,42 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-char *ft_line_c(char *str, int fd, int pos)
+char *get_line(char *str)
 {
-  char *buff;
   char *temp;
-  int i;
-  int count;
-  count = 0;
-  i = pos;
-  buff = (char *)malloc(sizeof(char));
-  temp = (char *)malloc(sizeof(char));
-  read(fd, buff, BUFFER_SIZE);
-  while(buff[i] && buff[i] != '\n')
+  size_t i;
+  temp = malloc(ft_strlen(str)+1);
+  while(str[i] && str[i] != '\n')
   {
-    temp[count] = buff[i];
+    temp[i] = str[i];
     i++;
-    count++;
   }
-  temp[count++]='\0';
-  str = temp;
-  free(temp);
-  return str;
-}
-
-int ft_get_pos(int pos, char *str)
-{
-  
-  pos += ft_strlen(str)+1;
-  return pos;
+  return temp;
 }
 char *get_next_line(int fd)
 {
-  char *buff;
-  char *temp;
-  static char *str;
-  static int pos = 0;  
+ int rd;
+ static char *str;
+ char *buff;
+ char *line;
+ rd = 1;
+ buff = malloc(BUFFER_SIZE + 1);
+ while(rd != 0 && !ft_strchr(str,'\n'))
+ {
+   rd = read(fd, buff, BUFFER_SIZE);
+   if(rd == -1)
+   {
+     free(buff);
+     
+     return NULL;
+   }
+   buff[rd] = '\0';
+  str = ft_strjoin(str, buff);
   
-  str = ft_line_c(str, fd, pos);
-  pos = ft_get_pos(pos, str);
-  printf("%d\n",pos);
-  return str; 
+ }
+ free(buff);
+ line = get_line(str);
+  return line; 
 }
 
 int main()
@@ -63,9 +59,7 @@ int main()
     char *str;
   
     fd =  open("test.txt",O_RDONLY);
-
-  printf("%s\n", get_next_line(fd));
-  printf("%s\n", get_next_line(fd));
-  printf("%s\n", get_next_line(fd));  
+    printf("%s", get_next_line(fd));
+    printf("%s", get_next_line(fd));
    
 }
