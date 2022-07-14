@@ -6,7 +6,7 @@
 /*   By: fpeixoto <fpeixoto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 18:14:56 by fpeixoto          #+#    #+#             */
-/*   Updated: 2022/07/14 14:24:57 by fpeixoto         ###   ########.fr       */
+/*   Updated: 2022/07/14 15:16:11 by fpeixoto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,53 @@ char *get_line(char *str)
 {
   char *temp;
   size_t i;
-  temp = malloc(ft_strlen(str)+1);
+
+  i = 0;
+  while(str[i] && str[i] != '\n')
+    i++;
+  if(str[i] == '\n')
+    i++;
+  temp = malloc(i + 1);
+  i = 0;
   while(str[i] && str[i] != '\n')
   {
     temp[i] = str[i];
     i++;
   }
+  if(str[i] == '\n' )
+  {
+    temp[i] = '\n';
+    i++;
+  }
+  temp[i] = '\0';
+  
   return temp;
 }
+char *get_new_l(char *str)
+{
+  size_t i;
+  size_t j;
+
+  j = 0;
+  i = 0;
+  char *temp;
+  while(str[i] && str[i] != '\n')
+    i++;
+  temp = malloc ((ft_strlen(str) - i) + 1);
+  if(str[i] =='\n')
+  {
+    i++;
+  }
+  while(str[i])
+  {
+    temp[j] = str[i];
+    i++;
+    j++;
+  }
+  temp[j] = '\0';
+  return temp;
+}
+
 char *get_next_line(int fd)
 {
  int rd;
@@ -42,7 +81,7 @@ char *get_next_line(int fd)
    {
      free(buff);
      
-     return NULL;
+     return (NULL);
    }
    buff[rd] = '\0';
   str = ft_strjoin(str, buff);
@@ -50,7 +89,8 @@ char *get_next_line(int fd)
  }
  free(buff);
  line = get_line(str);
-  return line; 
+ str = get_new_l(str);
+  return (line); 
 }
 
 int main()
@@ -59,6 +99,10 @@ int main()
     char *str;
   
     fd =  open("test.txt",O_RDONLY);
+    printf("%s", get_next_line(fd));
+    printf("%s", get_next_line(fd));
+    printf("%s", get_next_line(fd));
+    printf("%s", get_next_line(fd));
     printf("%s", get_next_line(fd));
     printf("%s", get_next_line(fd));
    
