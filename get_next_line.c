@@ -6,7 +6,7 @@
 /*   By: fpeixoto <fpeixoto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 18:14:56 by fpeixoto          #+#    #+#             */
-/*   Updated: 2022/07/13 18:37:24 by fpeixoto         ###   ########.fr       */
+/*   Updated: 2022/07/13 23:12:34 by fpeixoto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,45 +15,57 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-char *ft_fn(int fd, char *str)
+char *ft_line_c(char *str, int fd, int pos)
 {
   char *buff;
-  int i = 0;
-  str = (char *)malloc(BUFFER_SIZE + 1);
-  buff =(char *)malloc (BUFFER_SIZE + 1); 
-  read(fd,str, BUFFER_SIZE);
-  while(str[i] && str[i] != '\n')
-{
-  if(str[i] == '\\')
+  char *temp;
+  int i;
+  int count;
+  count = 0;
+  i = pos;
+  buff = (char *)malloc(sizeof(char));
+  temp = (char *)malloc(sizeof(char));
+  read(fd, buff, BUFFER_SIZE);
+  while(buff[i] && buff[i] != '\n')
   {
+    temp[count] = buff[i];
     i++;
-    if(str[i] == 'n')
-      exit;
+    count++;
   }
-  buff[i] = str[i];
-  i++;
+  temp[count++]='\0';
+  str = temp;
+  free(temp);
+  return str;
 }
-return buff; 
+
+int ft_get_pos(int pos, char *str)
+{
+  
+  pos += ft_strlen(str)+1;
+  return pos;
 }
 char *get_next_line(int fd)
 {
-  static char *v;
+  char *buff;
+  char *temp;
+  static char *str;
+  static int pos = 0;  
   
-v = ft_fn(fd, v);
-  return v;
+  str = ft_line_c(str, fd, pos);
+  pos = ft_get_pos(pos, str);
+  printf("%d\n",pos);
+  return str; 
 }
-
-
 
 int main()
 {
     int fd;
-    char *buffer;
-
+    char *str;
+  
     fd =  open("test.txt",O_RDONLY);
-    
-    //read(fd, buffer, 5);
-    printf("%s\n",get_next_line(fd));
-    printf("%s\n",get_next_line(fd));
+
+  printf("%s\n", get_next_line(fd));
+  printf("%s\n", get_next_line(fd));
+  printf("%s\n", get_next_line(fd));  
    
 }
