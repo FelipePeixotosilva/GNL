@@ -6,19 +6,18 @@
 /*   By: fpeixoto <fpeixoto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 18:47:41 by fpeixoto          #+#    #+#             */
-/*   Updated: 2022/07/14 22:30:55 by fpeixoto         ###   ########.fr       */
+/*   Updated: 2022/07/15 10:36:12 by fpeixoto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
 
 char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*ptr;
 	size_t	s;
 
-	if(!s1)
+	if (!s1)
 	{
 		s1 = (char *)malloc(1 * sizeof(char));
 		s1[0] = '\0';
@@ -86,6 +85,9 @@ size_t	ft_strlen(const char *s)
 
 void	*ft_memmove(void *dest, const void *src, size_t n)
 {
+	size_t	i;
+
+	i = 0;
 	if (dest > src)
 	{
 		while (n > 0)
@@ -96,45 +98,12 @@ void	*ft_memmove(void *dest, const void *src, size_t n)
 	}
 	else
 	{
-		ft_memcpy(dest, src, n);
-	}
-	return (dest);
-}
-
-void	*ft_memcpy(void *dest, const void *src, size_t n)
-{
-	size_t	i;
-
-	i = 0;
-	if ((dest == NULL) && (src == NULL))
-	{
-		return (NULL);
-	}
-	while (n > 0)
-	{
+		while (n > 0)
+		{
 		((char *)dest)[i] = ((char *)src)[i];
 		i++;
 		n--;
+		}
 	}
 	return (dest);
-}
-
-char	*ft_strchr(const char *s, int c)
-{
-	size_t	i;
-
-	i = 0;
-	if(!s)
-	{
-		return 0;
-	}
-	while (i <= ft_strlen(s))
-	{
-		if (s[i] == (char)c)
-		{
-			return ((char *)&s[i]);
-		}
-		i++;
-	}
-	return (0);
 }
