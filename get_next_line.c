@@ -6,14 +6,11 @@
 /*   By: fpeixoto <fpeixoto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 18:14:56 by fpeixoto          #+#    #+#             */
-/*   Updated: 2022/07/15 11:05:05 by fpeixoto         ###   ########.fr       */
+/*   Updated: 2022/07/15 11:24:20 by fpeixoto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdio.h>
-#include <fcntl.h>
-#include <unistd.h>
 
 int	sch_limit(const char *s, int c)
 {
@@ -116,7 +113,10 @@ char	*get_next_line(int fd)
 	str = get_new_line (str);
 	return (line);
 }
-/*int main()
+/*
+#include <stdio.h>
+#include <fcntl.h>
+int main()
 {
     int fd;
     char *str;
