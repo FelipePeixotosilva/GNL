@@ -6,7 +6,7 @@
 /*   By: fpeixoto <fpeixoto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 18:14:56 by fpeixoto          #+#    #+#             */
-/*   Updated: 2022/07/16 00:48:50 by fpeixoto         ###   ########.fr       */
+/*   Updated: 2022/07/16 17:17:20 by fpeixoto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,30 +32,35 @@ int	sch_limit(const char *s, int c)
 	return (0);
 }
 
-char	*get_new_line(char *left_str)
+char	*get_new_line(char *str)
 {
 	int		i;
 	int		j;
-	char	*str;
+	char	*temp;
 
 	i = 0;
-	while (left_str[i] && left_str[i] != '\n')
+	j = 0;
+	while (str[i] && str[i] != '\n')
 		i++;
-	if (!left_str[i])
+	if(str[i] == '\n')
+		i++;
+	if (!str[i])
 	{
-		free(left_str);
+		free(str);
 		return (NULL);
 	}
-	str = (char *)malloc(sizeof(char) * (ft_strlen(left_str) - i + 1));
+	temp = malloc(ft_strlen(str) - i + 1);
 	if (!str)
 		return (NULL);
-	i++;
-	j = 0;
-	while (left_str[i])
-		str[j++] = left_str[i++];
-	str[j] = '\0';
-	free(left_str);
-	return (str);
+	while (str[i])
+	{
+		temp[j] = str[i];
+		i++;
+		j++;
+	}
+	temp[j] = '\0';
+	free(str);
+	return (temp);
 }
 
 char	*get_line(char *str)
@@ -68,8 +73,7 @@ char	*get_line(char *str)
 		return (NULL);
 	while (str[i] && str[i] != '\n')
 		i++;
-	if (str[i] == '\n')
-		i++;
+	
 	temp = malloc (i + 2);
 	i = 0;
 	while (str[i] && str[i] != '\n')
@@ -78,10 +82,7 @@ char	*get_line(char *str)
 		i++;
 	}
 	if (str[i] == '\n')
-	{
-		temp[i] = '\n';
-		i++;
-	}
+		temp[i++] = '\n';
 	temp[i] = '\0';
 	return (temp);
 }
@@ -94,7 +95,7 @@ char	*get_next_line(int fd)
 	int			rd;
 
 	rd = 1;
-	if (fd < 0 || BUFFER_SIZE <= 0 || read (fd, 0, 0) < 0)
+	if (fd < 0 || BUFFER_SIZE <= 0/* || read (fd, 0, 0) < 0*/)
 		return (NULL);
 	buff = malloc ((BUFFER_SIZE + 1) * sizeof(char));
 	if (!buff)
