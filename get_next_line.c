@@ -6,7 +6,7 @@
 /*   By: fpeixoto <fpeixoto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 18:14:56 by fpeixoto          #+#    #+#             */
-/*   Updated: 2022/07/15 11:24:20 by fpeixoto         ###   ########.fr       */
+/*   Updated: 2022/07/16 00:48:50 by fpeixoto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,30 +32,30 @@ int	sch_limit(const char *s, int c)
 	return (0);
 }
 
-char	*get_new_line(char *str)
+char	*get_new_line(char *left_str)
 {
-	size_t	i;
-	size_t	j;
-	char	*temp;
+	int		i;
+	int		j;
+	char	*str;
 
+	i = 0;
+	while (left_str[i] && left_str[i] != '\n')
+		i++;
+	if (!left_str[i])
+	{
+		free(left_str);
+		return (NULL);
+	}
+	str = (char *)malloc(sizeof(char) * (ft_strlen(left_str) - i + 1));
 	if (!str)
 		return (NULL);
+	i++;
 	j = 0;
-	i = 0;
-	while (str[i] && str[i] != '\n')
-		i++;
-	if (str[i] == '\n')
-		i++;
-	temp = malloc ((ft_strlen(str) - i) + 1);
-	if (!temp)
-		return (NULL);
-	while (str[i])
-	{
-		temp[j] = str[i];
-		i++;
-		j++;
-	}
-	return (temp);
+	while (left_str[i])
+		str[j++] = left_str[i++];
+	str[j] = '\0';
+	free(left_str);
+	return (str);
 }
 
 char	*get_line(char *str)
@@ -96,7 +96,9 @@ char	*get_next_line(int fd)
 	rd = 1;
 	if (fd < 0 || BUFFER_SIZE <= 0 || read (fd, 0, 0) < 0)
 		return (NULL);
-	buff = malloc (BUFFER_SIZE + 1);
+	buff = malloc ((BUFFER_SIZE + 1) * sizeof(char));
+	if (!buff)
+		return (0);
 	while (rd != 0 && !sch_limit(str, '\n'))
 	{
 		rd = read (fd, buff, BUFFER_SIZE);
