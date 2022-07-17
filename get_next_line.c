@@ -6,13 +6,13 @@
 /*   By: fpeixoto <fpeixoto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 18:14:56 by fpeixoto          #+#    #+#             */
-/*   Updated: 2022/07/17 00:27:29 by fpeixoto         ###   ########.fr       */
+/*   Updated: 2022/07/17 10:14:37 by fpeixoto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int	sch_limit(const char *s, int c)
+int	ft_sch_limit(const char *s, int c)
 {
 	int	i;
 
@@ -30,7 +30,7 @@ int	sch_limit(const char *s, int c)
 	return (0);
 }
 
-char	*get_new_line(char *str)
+char	*ft_get_new_line(char *str)
 {
 	int		i;
 	int		j;
@@ -40,7 +40,7 @@ char	*get_new_line(char *str)
 	j = 0;
 	while (str[i] && str[i] != '\n')
 		i++;
-	if(str[i] == '\n')
+	if (str[i] == '\n')
 		i++;
 	if (!str[i])
 	{
@@ -48,7 +48,6 @@ char	*get_new_line(char *str)
 		return (NULL);
 	}
 	temp = malloc((ft_strlen(str) - i) + 1);
-
 	while (str[i])
 		temp[j++] = str[i++];
 	temp[j] = '\0';
@@ -56,10 +55,10 @@ char	*get_new_line(char *str)
 	return (temp);
 }
 
-char	*get_line(char *str)
+char	*ft_get_line(char *str)
 {
 	char	*temp;
-	int	i;
+	int		i;
 
 	i = 0;
 	if (!str[i])
@@ -79,18 +78,11 @@ char	*get_line(char *str)
 	return (temp);
 }
 
-char	*get_next_line(int fd)
+char	*ft_read_line(int fd, char *str, char *buff)
 {
-	char		*buff;
-	char		*line;
-	static char	*str;
-	int			rd;
+	int	rd;
 
 	rd = 1;
-	if (fd < 0 || BUFFER_SIZE <= 0 || read (fd, 0, 0) < 0)
-		return (NULL);
-	buff = malloc (BUFFER_SIZE + 1);
-	
 	while (rd != 0)
 	{
 		rd = read (fd, buff, BUFFER_SIZE);
@@ -99,28 +91,31 @@ char	*get_next_line(int fd)
 			free(buff);
 			return (NULL);
 		}
-		
 		buff[rd] = '\0';
+		if (!str)
+		{
+			s1 = malloc(1);
+			s1[0] = '\0';
+		}
 		str = ft_strjoin (str, buff);
-		if(sch_limit(buff, '\n'))
-			break;
+		if (ft_sch_limit(buff, '\n'))
+			break ;
 	}
-	free(buff);
-	line = get_line (str);
-	str = get_new_line (str);
-	return (line);
+	return (str);
 }
 
-/*#include <stdio.h>
-#include <fcntl.h>
-int main()
+char	*get_next_line(int fd)
 {
-    int fd;
-    char *str;
-  
-    fd =  open("test.txt",O_RDONLY);
-    
-    printf("%s", get_next_line(fd));
-  
+	char		*buff;
+	char		*line;
+	static char	*str;
+
+	if (fd < 0 || BUFFER_SIZE <= 0 || read (fd, 0, 0) < 0)
+		return (NULL);
+	buff = malloc (BUFFER_SIZE + 1);
+	str = ft_read_line(fd, str, buff);
+	free(buff);
+	line = ft_get_line (str);
+	str = ft_get_new_line (str);
+	return (line);
 }
-*/
