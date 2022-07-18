@@ -6,29 +6,11 @@
 /*   By: fpeixoto <fpeixoto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 18:14:56 by fpeixoto          #+#    #+#             */
-/*   Updated: 2022/07/17 10:14:37 by fpeixoto         ###   ########.fr       */
+/*   Updated: 2022/07/17 10:50:43 by fpeixoto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
-int	ft_sch_limit(const char *s, int c)
-{
-	int	i;
-
-	i = 0;
-	if (!s)
-		return (0);
-	if (c == '\0')
-		return (1);
-	while (s[i] != '\0')
-	{
-		if (s[i] == c)
-			return (1);
-		i++;
-	}
-	return (0);
-}
 
 char	*ft_get_new_line(char *str)
 {
@@ -94,11 +76,11 @@ char	*ft_read_line(int fd, char *str, char *buff)
 		buff[rd] = '\0';
 		if (!str)
 		{
-			s1 = malloc(1);
-			s1[0] = '\0';
+			str = malloc(1);
+			str[0] = '\0';
 		}
 		str = ft_strjoin (str, buff);
-		if (ft_sch_limit(buff, '\n'))
+		if (ft_strchr(buff, '\n'))
 			break ;
 	}
 	return (str);
