@@ -6,14 +6,13 @@
 /*   By: fpeixoto <fpeixoto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 18:14:56 by fpeixoto          #+#    #+#             */
-/*   Updated: 2022/07/19 14:51:07 by fpeixoto         ###   ########.fr       */
+/*   Updated: 2022/07/19 20:32:31 by fpeixoto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
 #include <fcntl.h>
 #include <stdio.h>
-
 
 char	*ft_get_new_line(char *str)
 {
