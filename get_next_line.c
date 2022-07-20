@@ -6,7 +6,7 @@
 /*   By: fpeixoto <fpeixoto@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 18:14:56 by fpeixoto          #+#    #+#             */
-/*   Updated: 2022/07/17 10:50:43 by fpeixoto         ###   ########.fr       */
+/*   Updated: 2022/07/19 21:25:16 by fpeixoto         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,15 @@ char	*ft_get_new_line(char *str)
 
 	i = 0;
 	j = 0;
-	while (str[i] && str[i] != '\n')
-		i++;
-	if (str[i] == '\n')
-		i++;
 	if (!str[i])
 	{
 		free(str);
 		return (NULL);
 	}
+	while (str[i] && str[i] != '\n')
+		i++;
+	if (str[i] == '\n')
+		i++;
 	temp = malloc((ft_strlen(str) - i) + 1);
 	while (str[i])
 		temp[j++] = str[i++];
