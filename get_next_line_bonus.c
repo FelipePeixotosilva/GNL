@@ -11,8 +11,6 @@
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
-#include <fcntl.h>
-#include <stdio.h>
 
 char	*ft_get_new_line(char *str)
 {
@@ -103,14 +101,3 @@ char	*get_next_line(int fd)
 	str[fd] = ft_get_new_line (str[fd]);
 	return (line);
 }
-/*
-int main()
-{
-	int fd;
-	int rd;
-	fd = open("test.txt",O_RDONLY);
-
-	rd = read(fd, 0, 0);
-	printf("%d\n", rd);
-
-}*/
