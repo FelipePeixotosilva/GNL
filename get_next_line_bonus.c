@@ -20,7 +20,7 @@ char	*ft_get_new_line(char *str)
 
 	i = 0;
 	j = 0;
-	if (!str[i])
+	if (str[i] == '\0')
 	{
 		free(str);
 		return (NULL);
