@@ -74,7 +74,7 @@ char	*ft_read_line(int fd, char *str, char *buff)
 			return (NULL);
 		}
 		buff[rd] = '\0';
-		if (!str)
+		if (str == NULL)
 		{
 			str = malloc(1);
 			str[0] = '\0';
