@@ -92,7 +92,7 @@ char	*get_next_line(int fd)
 	char		*line;
 	static char	*str[4096];
 
-	if (fd < 0 || BUFFER_SIZE <= 0 || read (fd, 0, 0) < 0)
+	if (BUFFER_SIZE <= 0 || read (fd, 0, 0) < 0)
 		return (NULL);
 	buff = malloc (BUFFER_SIZE + 1);
 	str[fd] = ft_read_line(fd, str[fd], buff);
